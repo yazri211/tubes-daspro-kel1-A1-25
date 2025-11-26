@@ -8,6 +8,7 @@
 #define CYAN    "\033[1;36m"
 #define RESET   "\033[0m"
 #define MAGENTA "\033[35m"
+#define BLUE    "\033[38;2;0;128;255m"
 
 #define FILE_NAME "catatan.txt"
 #define DATE_LEN 12 
@@ -50,7 +51,6 @@ int main() {
     return 0;
 }
 
-
 void hapusNewline(char *s) {
     s[strcspn(s, "\n")] = 0;
 }
@@ -75,8 +75,8 @@ int buatId() {
 }
 
 void pause() {
-    printf(CYAN"|!| ");
-    system("pause"RESET);
+    printf(GREEN"\n|!| ");
+    system("pause");
 }
 
 void pauseClear() {
@@ -90,15 +90,15 @@ void clearInput() {
 }
 
 void header(){
-printf(MAGENTA"===========================================\n");
-printf("||   C A T A T A N   K E U A N G A N     ||\n");
+printf(BLUE"===========================================\n");
+printf("||    C A T A T A N   K E U A N G A N    ||\n");
 printf("||     ----- Kelompok 1 A1 -----         ||\n");
 printf("===========================================\n\n"RESET);
 
 }
 
 void printMenu(){
-    printf(MAGENTA"===========================================\n");
+    printf(BLUE"===========================================\n");
     printf("||               M E N U                 ||\n");
     printf("===========================================\n");
     printf("|| 0. Keluar                             ||\n");
@@ -142,7 +142,6 @@ void menu() {
                 break;
             case 3:
                 hapusCatatan();
-                pauseClear();
                 break;
             case 4:
                 editCatatan();
@@ -164,14 +163,14 @@ void menu() {
 }
 
 void headerTabel() {
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
-    printf(MAGENTA "| %-3s | %-10s | %-6s | %-12s | %-40s |\n" RESET,
+    printf(BLUE "---------------------------------------------------------------------------------------------\n");
+    printf("| %-3s | %-10s | %-6s | %-12s | %-40s |\n",
            "ID", "Tanggal", "Jenis", "Jumlah", "Keterangan");
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf("---------------------------------------------------------------------------------------------\n" RESET);
 }
 
 void isiTabel(Data d) {
-    printf(MAGENTA"| %-3d | %-10s | %-6s | %-12.2lf | %-40s |\n"RESET,
+    printf(BLUE"| %-3d | %-10s | %-6s | %-12.2lf | %-40s |\n"RESET,
            d.id, d.tanggal, d.jenis, d.jumlah, d.keterangan);
 }
 
@@ -301,7 +300,7 @@ void tambahCatatan() {
 
     headerTabel();
     isiTabel(d);
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
 }
 // ========================================================
 
@@ -327,7 +326,7 @@ void lihatCatatan() {
         }
     }
 
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     fclose(f);
 
     if (!ada) {
@@ -358,7 +357,7 @@ void hapusCatatan() {
         }
     }
 
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     fclose(f);
 
     if (!ada) {
@@ -366,7 +365,7 @@ void hapusCatatan() {
     }
 
     int targetId;
-    printf(CYAN "Masukkan ID yang ingin dihapus: " RESET);
+    printf("Masukkan ID yang ingin dihapus: ");
     if (scanf("%d", &targetId) != 1) {
         printf(RED "Input ID tidak valid!\n" RESET);
         clearInput();
@@ -381,7 +380,7 @@ void hapusCatatan() {
     clearInput();
 
     if (yakin != 'Y' && yakin != 'y') {
-        printf(CYAN "Penghapusan dibatalkan.\n" RESET);
+        printf(GREEN "Penghapusan dibatalkan.\n" RESET);
         pauseClear();
         return;
     }
@@ -423,6 +422,8 @@ void hapusCatatan() {
     } else {
         printf(YELLOW "ID %d tidak ditemukan.\n" RESET, targetId);
     }
+
+    pauseClear();
 }
 // ====================================================
 
@@ -431,7 +432,7 @@ void editCatatan() {
     lihatCatatan();
 
     int targetId;
-    printf(CYAN "Masukkan ID yang ingin diedit: " RESET);
+    printf("Masukkan ID yang ingin diedit: ");
     if (scanf("%d", &targetId) != 1) {
         printf(RED "Input ID tidak valid!\n" RESET);
         clearInput();
@@ -465,7 +466,7 @@ void editCatatan() {
                 printf(YELLOW "Data lama:\n" RESET);
                 headerTabel();
                 isiTabel(d);
-                printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+                printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
                 printf(GREEN "Masukkan data baru:\n" RESET);
 
                 char pilihJenis[32];
@@ -542,7 +543,7 @@ void editCatatan() {
         printf(GREEN "Catatan dengan ID %d berhasil diupdate.\n" RESET, targetId);
         headerTabel();
         isiTabel(d);
-        printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+        printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     } else {
         remove("temp.txt");
         printf(YELLOW "ID %d tidak ditemukan.\n" RESET, targetId);
@@ -554,7 +555,7 @@ void editCatatan() {
 void cariCatatan() {
     char buf[64];
 
-    printf("===== CARI CATATAN (dd-mm-yyyy / mm-yyyy / yyyy) =====\n");
+    printf(BLUE"===== CARI CATATAN (dd-mm-yyyy / mm-yyyy / yyyy) =====\n"RESET);
     printf("Masukkan pola pencarian: ");
 
     clearInput();
@@ -585,7 +586,7 @@ void cariCatatan() {
             return;
         }
 
-        printf(CYAN "Hasil pencarian tanggal: %s\n" RESET, buf);
+        printf(BLUE "\nHasil pencarian tanggal: %s\n" RESET, buf);
 
         headerTabel();
         while (fgets(line, sizeof(line), f)) {
@@ -602,7 +603,7 @@ void cariCatatan() {
             }
         }
 
-        printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+        printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
         if (!found) printf(YELLOW "Tidak ditemukan data tanggal %s\n" RESET, buf);
         fclose(f);
         pauseClear();
@@ -618,7 +619,7 @@ void cariCatatan() {
             return;
         }
 
-        printf(CYAN "Hasil pencarian bulan: %02d-%04d\n" RESET, m, y);
+        printf(BLUE "\nHasil pencarian bulan: %02d-%04d\n" RESET, m, y);
         headerTabel();
 
         while (fgets(line, sizeof(line), f)) {
@@ -635,7 +636,7 @@ void cariCatatan() {
             }
         }
 
-        printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+        printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
         if (!found) printf(YELLOW "Tidak ada catatan pada %02d-%04d\n" RESET, m, y);
         fclose(f);
         pauseClear();
@@ -651,7 +652,7 @@ void cariCatatan() {
             return;
         }
 
-        printf(CYAN "Hasil pencarian tahun: %04d\n" RESET, y);
+        printf(BLUE "\nHasil pencarian tahun: %04d\n" RESET, y);
         headerTabel();
 
         while (fgets(line, sizeof(line), f)) {
@@ -668,7 +669,7 @@ void cariCatatan() {
             }
         }
 
-        printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+        printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
         if (!found) printf(YELLOW "Tidak ada catatan pada tahun %04d\n" RESET, y);
         fclose(f);
         pauseClear();
@@ -677,6 +678,7 @@ void cariCatatan() {
 
     printf(RED "Format tidak dikenali.\nGunakan dd-mm-yyyy / mm-yyyy / yyyy.\n" RESET);
     fclose(f);
+    pauseClear();
 }
 // ==========================================================
 
@@ -686,7 +688,7 @@ void laporanBulanan() {
     int valid;
 
     while (1) {
-        printf("Masukkan bulan (1-12)\t\t: ");
+        printf("Masukkan bulan (1-12)\t: ");
         valid = scanf("%d", &bulan);
         if (valid != 1) {
             clearInput();
@@ -729,7 +731,7 @@ void laporanBulanan() {
     int any = 0;
 
     header();
-    printf(CYAN "===== LAPORAN BULANAN: %02d-%04d =====\n" RESET, bulan, tahun);
+    printf(BLUE "===== LAPORAN BULANAN: %02d-%04d =====\n" RESET, bulan, tahun);
     headerTabel();
 
     while (fgets(line, sizeof(line), f)) {
@@ -747,13 +749,13 @@ void laporanBulanan() {
         }
     }
 
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     if (!any) {
         printf(YELLOW "Tidak ada transaksi pada %02d-%04d\n" RESET, bulan, tahun);
     }
     printf("Total Masuk   : %.2lf\n", totalMasuk);
     printf("Total Keluar  : %.2lf\n", totalKeluar);
-    printf("Saldo Period  : %.2lf\n", totalMasuk - totalKeluar);
+    printf("Sisa Saldo    : %.2lf\n", totalMasuk - totalKeluar);
 
     fclose(f);
     pauseClear();
@@ -791,7 +793,7 @@ void laporanTahunan() {
     double totalMasuk = 0.0, totalKeluar = 0.0;
     int any = 0;
 
-    printf(CYAN "===== LAPORAN TAHUNAN: %04d =====\n" RESET, tahun);
+    printf(BLUE "===== LAPORAN TAHUNAN: %04d =====\n" RESET, tahun);
     headerTabel();
 
     while (fgets(line, sizeof(line), f)) {
@@ -809,13 +811,13 @@ void laporanTahunan() {
         }
     }
 
-    printf(MAGENTA "---------------------------------------------------------------------------------------------\n" RESET);
+    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     if (!any) {
         printf(YELLOW "Tidak ada transaksi pada tahun %04d\n" RESET, tahun);
     }
     printf("Total Masuk   : %.2lf\n", totalMasuk);
     printf("Total Keluar  : %.2lf\n", totalKeluar);
-    printf("Saldo Period  : %.2lf\n", totalMasuk - totalKeluar);
+    printf("Sisa Saldo    : %.2lf\n", totalMasuk - totalKeluar);
 
     fclose(f);
     pauseClear();
@@ -826,11 +828,11 @@ void laporan() {
     int valid;
 
     while (1) {
-        printf("======== LAPORAN ========\n");
+        printf(BLUE"======== LAPORAN ========\n");
         printf("|| 0. Kembali          ||\n");
         printf("|| 1. Laporan Bulanan  ||\n");
         printf("|| 2. Laporan Tahunan  ||\n");
-        printf("========================\n");
+        printf("========================\n"RESET);
         printf("Pilih: ");
         valid = scanf("%d", &pilihan);
         if (valid != 1) {
