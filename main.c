@@ -541,8 +541,6 @@ void editCatatan() {
             return;
         }
         printf(GREEN "Catatan dengan ID %d berhasil diupdate.\n" RESET, targetId);
-        headerTabel();
-        isiTabel(d);
         printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
     } else {
         remove("temp.txt");
@@ -556,7 +554,7 @@ void cariCatatan() {
     char buf[64];
 
     printf(BLUE"===== CARI CATATAN (dd-mm-yyyy / mm-yyyy / yyyy) =====\n"RESET);
-    printf("Masukkan pola pencarian: ");
+    printf("Masukkan pencarian: ");
 
     clearInput();
     if (fgets(buf, sizeof(buf), stdin) == NULL) return;
@@ -730,8 +728,7 @@ void laporanBulanan() {
     double totalMasuk = 0.0, totalKeluar = 0.0;
     int any = 0;
 
-    header();
-    printf(BLUE "===== LAPORAN BULANAN: %02d-%04d =====\n" RESET, bulan, tahun);
+    printf(BLUE "\n===== LAPORAN BULANAN: %02d-%04d =====\n" RESET, bulan, tahun);
     headerTabel();
 
     while (fgets(line, sizeof(line), f)) {
@@ -793,7 +790,7 @@ void laporanTahunan() {
     double totalMasuk = 0.0, totalKeluar = 0.0;
     int any = 0;
 
-    printf(BLUE "===== LAPORAN TAHUNAN: %04d =====\n" RESET, tahun);
+    printf(BLUE "\n===== LAPORAN TAHUNAN: %04d =====\n" RESET, tahun);
     headerTabel();
 
     while (fgets(line, sizeof(line), f)) {
