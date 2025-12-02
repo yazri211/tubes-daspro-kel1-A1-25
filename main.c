@@ -281,11 +281,22 @@ void tambahCatatan() {
     }
 
     // INPUT KETERANGAN
-    printf("Masukkan keterangan\t\t: ");
-    if (fgets(d.keterangan, sizeof(d.keterangan), stdin) == NULL) {
-        d.keterangan[0] = '\0';
-    } else {
+    while (1) {
+        printf("Masukkan keterangan\t\t: ");
+
+        if (fgets(d.keterangan, sizeof(d.keterangan), stdin) == NULL) {
+            printf(RED "Keterangan tidak boleh kosong!\n" RESET);
+            continue;
+        }
+
         hapusNewline(d.keterangan);
+
+        if (d.keterangan[0] == '\0') {
+            printf(RED "Keterangan tidak boleh kosong!\n" RESET);
+            continue;
+        }
+
+        break; 
     }
 
     // TULIS KE FILE
@@ -335,32 +346,7 @@ void lihatCatatan() {
 
 // =================== 3. HAPUS CATATAN ===================
 void hapusCatatan() {
-    FILE *f = fopen(FILE_NAME, "r");
-    if (!f) {
-        printf(RED "Belum ada catatan (file tidak ditemukan).\n" RESET);
-        return;
-    }
-
-    char line[512];
-    int ada = 0;
-    Data d;
-
-    headerTabel();
-
-    while (fgets(line, sizeof(line), f)) {
-        if (sscanf(line, "%d|%10[^|]|%9[^|]|%lf|%199[^\n]",
-                   &d.id, d.tanggal, d.jenis, &d.jumlah, d.keterangan) == 5) {
-            isiTabel(d);
-            ada = 1;
-        }
-    }
-
-    printf(BLUE "---------------------------------------------------------------------------------------------\n" RESET);
-    fclose(f);
-
-    if (!ada) {
-        printf(YELLOW "Tidak ada catatan.\n" RESET);
-    }
+    lihatCatatan();
 
     int targetId;
     printf("Masukkan ID yang ingin dihapus: ");
@@ -383,7 +369,7 @@ void hapusCatatan() {
         return;
     }
 
-    f = fopen(FILE_NAME, "r");
+    FILE *f = fopen(FILE_NAME, "r");
     if (!f) {
         printf(RED "File tidak ditemukan saat proses hapus.\n" RESET);
         pauseClear();
@@ -398,6 +384,7 @@ void hapusCatatan() {
         return;
     }
 
+    char line[512];
     int found = 0;
     int id;
 
