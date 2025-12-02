@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #define GREEN   "\033[1;32m"
 #define RED     "\033[1;31m"
@@ -44,12 +45,13 @@ void laporanBulanan();
 void laporanTahunan();
 void laporan();
 
-
+// ==== FUNGSI MAIN ====
 int main() {
 
     menu();
     return 0;
 }
+// =====================
 
 void hapusNewline(char *s) {
     s[strcspn(s, "\n")] = 0;
@@ -94,7 +96,6 @@ printf(BLUE"===========================================\n");
 printf("||    C A T A T A N   K E U A N G A N    ||\n");
 printf("||     ----- Kelompok 1 A1 -----         ||\n");
 printf("===========================================\n\n"RESET);
-
 }
 
 void printMenu(){
@@ -112,8 +113,7 @@ void printMenu(){
 }
 
 void menu() {
-    int pilihan;
-    int valid;
+    int pilihan, valid;
 
     while (1) {
         header();
@@ -295,7 +295,7 @@ void tambahCatatan() {
             d.id, d.tanggal, d.jenis, d.jumlah, d.keterangan);
 
     fclose(f);
-    printf(GREEN "Catatan berhasil ditambah\n" RESET);
+    printf(GREEN "\nCatatan berhasil ditambah\n" RESET);
 
 
     headerTabel();
@@ -680,7 +680,7 @@ void cariCatatan() {
 }
 // ==========================================================
 
-// =================== 6. LAPORAN BULANAN ===================
+// =================== 6. LAPORAN  ===================
 void laporanBulanan() {
     int bulan, tahun;
     int valid;
