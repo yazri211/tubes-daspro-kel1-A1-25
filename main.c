@@ -6,9 +6,7 @@
 #define GREEN   "\033[1;32m"
 #define RED     "\033[1;31m"
 #define YELLOW  "\033[1;33m"
-#define CYAN    "\033[1;36m"
 #define RESET   "\033[0m"
-#define MAGENTA "\033[35m"
 #define BLUE    "\033[38;2;0;128;255m"
 
 #define FILE_NAME "catatan.txt"
@@ -182,7 +180,7 @@ int validTanggal(const char *tgl) {
         return 0;
     }
 
-    if (y < 1900 || y > 2100) return 0;
+    if (y < 0 || y > 2100) return 0;
 
     if (m < 1 || m > 12) return 0;
 
